@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.scanbook.BookView"
+                android:name="com.scanbook.BookViewActivity"
                 android:label="@string/appname" >
         </activity>
 		<activity  
@@ -30,11 +30,11 @@
 	            android:windowSoftInputMode="stateAlwaysHidden" >  
         </activity>   
         <activity
-                android:name="com.scanbook.ReviewActivity"
+                android:name="com.scanbook.ReviewListActivity"
                 android:label="@string/appname" >
         </activity>       
         <activity
-                android:name="com.scanbook.ReviewContent"
+                android:name="com.scanbook.ReviewContentActivity"
                 android:label="@string/appname" >
         </activity>      
     </application>

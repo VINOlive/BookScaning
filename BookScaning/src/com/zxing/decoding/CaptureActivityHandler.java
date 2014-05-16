@@ -68,34 +68,37 @@ private static final String TAG = CaptureActivityHandler.class.getSimpleName();
   }
 
   @Override
+  
+  /*
+   *	扫描结果的消息处理 
+   */
   public void handleMessage(Message message) {
     switch (message.what) {
       case R.id.auto_focus:
-        //Log.d(TAG, "Got auto-focus message");
-        // When one auto focus pass finishes, start another. This is the closest thing to
-        // continuous AF. It does seem to hunt a bit, but I'm not sure what else to do.
         if (state == State.PREVIEW) {
           CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
         }
         break;
       case R.id.restart_preview:
-        Log.i("OUTPUT", "Got restart preview message");
         restartPreviewAndDecode();
         break;
+      //扫描成功的消息
       case R.id.decode_succeeded:
-        Log.i("OUTPUT", "Got decode succeeded message");
         state = State.SUCCESS;
+        
         Bundle bundle = message.getData();
-        Bitmap barcode = bundle == null ? null :
-            (Bitmap) bundle.getParcelable(DecodeThread.BARCODE_BITMAP);
+        Bitmap barcode = bundle == null ? null :(Bitmap) bundle.getParcelable(DecodeThread.BARCODE_BITMAP);
+        
         String str_result=((Result) message.obj).getText();
         activity.handleDecode((Result) message.obj, barcode);
         
+        //获取到ISBN码后返回到主Activity
     	Intent intent=new Intent(activity,MainActivity.class);
 		intent.putExtra("result", str_result);
 		activity.setResult(100,intent);
 		activity.finish();
         break;
+        
       case R.id.decode_failed:
         Log.i("OUTPUT", "Got return scan result message");
         state = State.PREVIEW;

@@ -2,7 +2,6 @@ package com.scanbook;
 
 import java.io.IOException;
 import java.util.Vector;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.zxing.camera.CameraManager;
@@ -10,7 +9,6 @@ import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
 import com.zxing.view.ViewfinderView;
 import com.scanbook.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -32,13 +30,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * 扫描Activity
- * @author 
- *
+ * <a href="http://fangjie.sinaapp.com">http://fangjie.sinaapp.com</a>
+ * @version 1.0
+ * @author JayFang
+ * @describe Zxing开源项目的Demo中的类，主要是摄像头相关操作
  */
-public class CaptureActivity extends Activity implements Callback {
 
+public class CaptureActivity extends Activity implements Callback {
+	
+	//所有扫描消息都发到这个Handler类中
 	private CaptureActivityHandler handler;
+	
+	
 	private ViewfinderView viewfinderView;
 	private boolean hasSurface;
 	private Vector<BarcodeFormat> decodeFormats;
@@ -51,7 +54,6 @@ public class CaptureActivity extends Activity implements Callback {
 	private boolean vibrate;
 	private Button btn_back;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,7 +70,8 @@ public class CaptureActivity extends Activity implements Callback {
 		inactivityTimer = new InactivityTimer(this);
 		
         btn_back=(Button)findViewById(R.id.titlebar_bt_back);
-        btn_back.setVisibility(View.VISIBLE);       
+        btn_back.setVisibility(View.VISIBLE);    
+        
         btn_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent1=new Intent(CaptureActivity.this,MainActivity.class);
@@ -127,8 +130,7 @@ public class CaptureActivity extends Activity implements Callback {
 			return;
 		}
 		if (handler == null) {
-			handler = new CaptureActivityHandler(this, decodeFormats,
-					characterSet);
+			handler = new CaptureActivityHandler(this, decodeFormats,characterSet);
 		}
 	}
 
@@ -160,15 +162,13 @@ public class CaptureActivity extends Activity implements Callback {
 
 	public void drawViewfinder() {
 		viewfinderView.drawViewfinder();
-
 	}
 
+	
 	public void handleDecode(Result obj, Bitmap barcode) {
 		inactivityTimer.onActivity();
-
 		Log.i("OUTPUT",obj.getBarcodeFormat().toString() + ":"
 				+ obj.getText());
-		
 		txtResult.setText(obj.getBarcodeFormat().toString() + ":"
 				+ obj.getText());
 	}
@@ -208,9 +208,6 @@ public class CaptureActivity extends Activity implements Callback {
 		}
 	}
 
-	/**
-	 * When the beep has finished playing, rewind to queue up another one.
-	 */
 	private final OnCompletionListener beepListener = new OnCompletionListener() {
 		public void onCompletion(MediaPlayer mediaPlayer) {
 			mediaPlayer.seekTo(0);
